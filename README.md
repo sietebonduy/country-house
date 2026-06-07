@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Country House
+
+Next.js сайт апартаментов Country House.
 
 ## Getting Started
 
@@ -16,21 +18,52 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## GitHub Actions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+В репозитории настроены два workflow:
 
-## Learn More
+- `CI` запускается на push в `main`/`master` и на pull request: устанавливает зависимости, проверяет TypeScript и собирает сайт.
+- `Deploy` запускается вручную или на push в `main`: собирает release-архив и выкладывает его на сервер по SSH, если настроены секреты.
 
-To learn more about Next.js, take a look at the following resources:
+Для деплоя добавьте в GitHub `Settings -> Secrets and variables -> Actions`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `NEXT_PUBLIC_SITE_URL` в Variables: публичный URL сайта для SEO, например `https://country-house-tlt.ru`.
+- `DEPLOY_HOST` в Secrets: IP или домен сервера.
+- `DEPLOY_USER` в Secrets: SSH-пользователь.
+- `DEPLOY_PORT` в Secrets: SSH-порт, можно не задавать, тогда используется `22`.
+- `DEPLOY_SSH_KEY` в Secrets: приватный SSH-ключ для деплоя.
+- `DEPLOY_PATH` в Secrets: директория приложения на сервере, например `/var/www/country-house`.
+- `DEPLOY_RESTART_COMMAND` в Secrets: команда перезапуска после выкладки, например `pm2 restart country-house` или `systemctl --user restart country-house`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+После выкладки активный релиз доступен в `$DEPLOY_PATH/current`. На сервере должен быть установлен Node.js 22 или совместимая версия.
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev
+npm run typecheck
+npm run build
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy Notes
+
+Workflow деплоя переносит на сервер `.next`, `public`, `package.json`, `package-lock.json` и `next.config.ts`, затем выполняет `npm ci --omit=dev` и переключает symlink `current` на новый релиз.
+
+Минимальный пример systemd-сервиса:
+
+```ini
+[Unit]
+Description=Country House Next.js
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/country-house/current
+ExecStart=/usr/bin/npm run start -- -p 3000
+Restart=always
+Environment=NODE_ENV=production
+Environment=NEXT_PUBLIC_SITE_URL=https://country-house-tlt.ru
+
+[Install]
+WantedBy=default.target
+```
