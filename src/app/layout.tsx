@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://country-house-tlt.ru";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://country-house-tlt.ru";
 const title = "Country House | Апартаменты в Тольятти";
 const description =
   "Country House - три авторских апартамента в Тольятти с домашним уютом, джакузи, каминами, онлайн-бронированием и отчетными документами.";
