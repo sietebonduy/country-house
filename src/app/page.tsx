@@ -13,12 +13,12 @@ const navItems = [
 const apartmentCards = [
   {
     title: "Апартамент 01",
-    image: "/Спальня1_35.jpg",
+    image: "/apartment-1.jpg",
     text: "Классический интерьер с историческими деталями, камином и атмосферой частного дома.",
   },
   {
     title: "Апартамент 02",
-    image: "/Ванная_01.jpg",
+    image: "/apartment-2-2.jpg",
     text: "Просторная ванная на двоих с джакузи и все, что нужно для спокойного отдыха.",
   },
   {
@@ -161,7 +161,7 @@ const contactLinks = [
   },
   {
     label: "MAX",
-    href: "https://max.ru/",
+    href: "https://max.ru/u/f9LHodD0cOKJdnDr2Ao8ngrhFm15alskyul4LlhZ8RKTB_h4qUH93nTO6QU",
     icon: "max",
     external: true,
   },

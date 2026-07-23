@@ -17,6 +17,7 @@ type HomeReserveWidgetConfig = {
   token: string;
   tag: string;
   instance_id: string;
+  navigation: boolean;
 };
 
 type HomeReserveApi = {
@@ -131,6 +132,7 @@ function mountSearchWidget() {
       token: TOKEN,
       tag: TAG,
       instance_id: SEARCH_INSTANCE_ID,
+      navigation: false,
     },
     SEARCH_CONTAINER_ID,
   );
@@ -153,21 +155,35 @@ function isWidgetMounted(instanceId: string) {
   );
 }
 
-function waitForWidgetMounted(instanceId: string, timeout = MOUNT_WAIT_TIMEOUT_MS) {
+function waitForWidgetMounted(
+  instanceId: string,
+  signal: AbortSignal,
+  timeout = MOUNT_WAIT_TIMEOUT_MS,
+) {
   return new Promise<void>((resolve, reject) => {
     const startedAt = Date.now();
+    const stopWaiting = () => {
+      window.clearInterval(timer);
+      signal.removeEventListener("abort", abortWaiting);
+    };
+    const abortWaiting = () => {
+      stopWaiting();
+      reject(new DOMException("Widget mount was cancelled", "AbortError"));
+    };
     const timer = window.setInterval(() => {
       if (isWidgetMounted(instanceId)) {
-        window.clearInterval(timer);
+        stopWaiting();
         resolve();
         return;
       }
 
       if (Date.now() - startedAt > timeout) {
-        window.clearInterval(timer);
+        stopWaiting();
         reject(new Error("HomeReserve widgets were not mounted"));
       }
     }, 150);
+
+    signal.addEventListener("abort", abortWaiting, { once: true });
   });
 }
 
@@ -184,6 +200,7 @@ export default function HomeReserveWidgets() {
 
   useEffect(() => {
     let cancelled = false;
+    const mountController = new AbortController();
 
     loadHomeReserveScript()
       .then(async () => {
@@ -193,35 +210,42 @@ export default function HomeReserveWidgets() {
 
         try {
           mountSearchWidget();
-          waitForWidgetMounted(SEARCH_INSTANCE_ID)
+          waitForWidgetMounted(SEARCH_INSTANCE_ID, mountController.signal)
             .then(() => {
               if (!cancelled) {
                 setSearchState("ready");
               }
             })
             .catch((error) => {
-              console.error(error);
-              if (!cancelled) {
-                setSearchState("error");
+              if (cancelled) {
+                return;
               }
+
+              console.error(error);
+              setSearchState("error");
             });
         } catch (error) {
-          console.error(error);
-          if (!cancelled) {
-            setSearchState("error");
+          if (cancelled) {
+            return;
           }
+
+          console.error(error);
+          setSearchState("error");
         }
 
       })
       .catch((error) => {
-        console.error(error);
-        if (!cancelled) {
-          setSearchState("error");
+        if (cancelled) {
+          return;
         }
+
+        console.error(error);
+        setSearchState("error");
       });
 
     return () => {
       cancelled = true;
+      mountController.abort();
       window.homereserve?.destroyWidget?.(SEARCH_INSTANCE_ID);
     };
   }, [retryKey]);
