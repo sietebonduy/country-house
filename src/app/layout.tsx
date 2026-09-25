@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://country-house-tlt.ru";
-const title = "Country House | Апартаменты в Тольятти";
-const description =
-  "Country House - три авторских апартамента в Тольятти с домашним уютом, джакузи, каминами, онлайн-бронированием и отчетными документами.";
+const { title, description } = site;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(site.url),
   title: {
     default: title,
     template: "%s | Country House",
@@ -17,17 +15,12 @@ export const metadata: Metadata = {
   authors: [{ name: "Country House" }],
   creator: "Country House",
   publisher: "Country House",
-  keywords: [
-    "Country House",
-    "апартаменты Тольятти",
-    "посуточная аренда Тольятти",
-    "квартиры посуточно Тольятти",
-    "апартаменты с джакузи",
-    "апартаменты с камином",
-    "отчетные документы",
-  ],
   alternates: {
-    canonical: "/",
+    canonical: site.url,
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.YANDEX_SITE_VERIFICATION || undefined,
   },
   icons: {
     icon: [
@@ -39,15 +32,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ru_RU",
-    url: "/",
+    url: site.url,
     siteName: "Country House",
     title,
     description,
     images: [
       {
-        url: "/Спальня1_35.jpg",
-        width: 1200,
-        height: 800,
+        url: site.image,
+        width: 1402,
+        height: 1122,
         alt: "Апартаменты Country House в Тольятти",
       },
     ],
@@ -56,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: ["/Спальня1_35.jpg"],
+    images: [site.image],
   },
   robots: {
     index: true,

@@ -119,9 +119,47 @@ main {
   color: var(--ink-on-dark);
 }
 
-.hero-image {
+.hero-collage {
+  --hero-slant: clamp(32px, 6vw, 100px);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 3fr 4fr 3fr;
+  background: #251915;
+}
+
+.hero-photo {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.hero-photo-spa {
+  margin-right: calc(-1 * var(--hero-slant));
+  clip-path: polygon(0 0, calc(100% - 2px) 0, calc(100% - 2 * var(--hero-slant) - 2px) 100%, 0 100%);
+}
+
+.hero-photo-bedroom {
+  margin-inline: calc(-1 * var(--hero-slant));
+  clip-path: polygon(calc(2 * var(--hero-slant) + 2px) 0, calc(100% - 2px) 0, calc(100% - 2 * var(--hero-slant) - 2px) 100%, 2px 100%);
+}
+
+.hero-photo-fireplace {
+  margin-left: calc(-1 * var(--hero-slant));
+  clip-path: polygon(calc(2 * var(--hero-slant) + 2px) 0, 100% 0, 100% 100%, 2px 100%);
+}
+
+.hero-photo img {
   object-fit: cover;
   object-position: center;
+}
+
+.hero-photo-spa img {
+  object-position: 50% 70%;
+}
+
+.hero-photo-fireplace img {
+  object-position: 60% 55%;
 }
 
 .hero-overlay {
@@ -129,8 +167,8 @@ main {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(19, 11, 8, 0.78), rgba(19, 11, 8, 0.34) 48%, rgba(19, 11, 8, 0.2)),
-    linear-gradient(180deg, rgba(19, 11, 8, 0.18), rgba(19, 11, 8, 0.72));
+    linear-gradient(90deg, rgba(19, 11, 8, 0.4), rgba(19, 11, 8, 0.1) 70%),
+    linear-gradient(180deg, rgba(19, 11, 8, 0.16) 25%, rgba(19, 11, 8, 0.8));
 }
 
 .hero-content {
@@ -180,6 +218,15 @@ h2 {
   color: rgba(255, 248, 239, 0.84);
   font-size: clamp(18px, 2vw, 25px);
   line-height: 1.45;
+}
+
+.hero-heading-detail {
+  display: block;
+  margin-top: 24px;
+  font-family: var(--font-sans-stack);
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.3;
+  font-weight: 500;
 }
 
 .hero-actions,
@@ -677,7 +724,7 @@ h2 {
   text-align: center;
   background:
     linear-gradient(rgba(34, 23, 18, 0.76), rgba(34, 23, 18, 0.84)),
-    url("/Ванная_01.jpg") center / cover;
+    url("/photos/bathroom-detail.webp") center / cover;
 }
 
 .contact-content {
@@ -699,6 +746,18 @@ h2 {
 .contact-actions {
   justify-content: center;
   margin-top: 30px;
+}
+
+.contact-address {
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.contact-address a {
+  display: block;
+  margin-top: 8px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .contact-link {
@@ -750,8 +809,45 @@ h2 {
   }
 
   .hero {
-    min-height: 88svh;
-    padding-top: 110px;
+    min-height: auto;
+    padding-top: 0;
+    background: #251915;
+  }
+
+  .hero-collage {
+    --hero-slant: clamp(20px, 6vw, 48px);
+    position: relative;
+    inset: auto;
+    height: clamp(380px, 65vw, 560px);
+    margin-inline: calc(-1 * clamp(18px, 5vw, 72px));
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 4px;
+  }
+
+  .hero-photo-spa {
+    grid-row: 1 / 3;
+  }
+
+  .hero-photo-bedroom {
+    margin-right: 0;
+    clip-path: polygon(calc(2 * var(--hero-slant) + 2px) 0, 100% 0, 100% 100%, calc(var(--hero-slant) + 2px) 100%);
+  }
+
+  .hero-photo-fireplace {
+    clip-path: polygon(calc(var(--hero-slant) + 2px) 0, 100% 0, 100% 100%, 2px 100%);
+  }
+
+  .hero-photo-bedroom img {
+    object-position: 50% 65%;
+  }
+
+  .hero-photo-fireplace img {
+    object-position: 60% 60%;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(180deg, rgba(19, 11, 8, 0.2), transparent 35%);
   }
 
   .booking-strip {
@@ -760,7 +856,7 @@ h2 {
     right: auto;
     bottom: auto;
     grid-template-columns: repeat(2, 1fr);
-    margin-top: -74px;
+    margin-top: 0;
   }
 
   .booking-strip span:nth-child(2n) {
@@ -768,7 +864,7 @@ h2 {
   }
 
   .hero-content {
-    padding-bottom: 130px;
+    padding-block: 32px;
   }
 
   .section-heading,
@@ -799,7 +895,7 @@ h2 {
   }
 
   .hero-content {
-    padding-bottom: 120px;
+    padding-bottom: 28px;
   }
 
   .hero h1 {
@@ -812,7 +908,7 @@ h2 {
 
   .booking-strip {
     grid-template-columns: 1fr;
-    margin-top: -86px;
+    margin-top: 0;
   }
 
   .booking-strip span {

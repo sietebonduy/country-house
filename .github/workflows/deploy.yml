@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+      GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
+      YANDEX_SITE_VERIFICATION: ${{ vars.YANDEX_SITE_VERIFICATION }}
 
     steps:
       - name: Checkout

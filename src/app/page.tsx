@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { site, structuredData } from "@/lib/site";
 import HomeReserveWidgets from "./components/HomeReserveWidgets";
 
 const navItems = [
@@ -13,17 +14,20 @@ const navItems = [
 const apartmentCards = [
   {
     title: "Апартамент 01",
-    image: "/apartment-1.jpg",
+    image: "/photos/fireplace.webp",
+    alt: "Белый камин в классическом интерьере Country House",
     text: "Классический интерьер с историческими деталями, камином и атмосферой частного дома.",
   },
   {
     title: "Апартамент 02",
-    image: "/apartment-2-2.jpg",
+    image: "/photos/jacuzzi-foam.webp",
+    alt: "Джакузи с пеной, лепестками роз и свечами",
     text: "Просторная ванная на двоих с джакузи и все, что нужно для спокойного отдыха.",
   },
   {
     title: "Апартамент 03",
-    image: "/Спальня1_04.jpg",
+    image: "/photos/bedroom-green.webp",
+    alt: "Кровать с зелёным изголовьем и свежим бельём",
     text: "Уютная спальня, свежее белье и продуманное оснащение для коротких и длинных поездок.",
   },
 ];
@@ -143,7 +147,7 @@ const locationItems = [
 const contactLinks = [
   {
     label: "Позвонить",
-    href: "tel:+79276116560",
+    href: `tel:${site.telephone}`,
     icon: "phone",
     external: false,
   },
@@ -198,6 +202,12 @@ function ContactIcon({ icon }: { icon: string }) {
 export default function Home() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
+      />
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Country House">
           <Image
@@ -219,21 +229,47 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <Image
-          className="hero-image"
-          src="/Спальня1_35.jpg"
-          alt="Спальня апартаментов Country House"
-          fill
-          priority
-          sizes="100vw"
-        />
-        <div className="hero-overlay" />
+        <div className="hero-collage">
+          <div className="hero-photo hero-photo-spa">
+            <Image
+              src="/photos/jacuzzi-foam.webp"
+              alt="Пена и лепестки роз в джакузи при свечах"
+              fill
+              priority
+              sizes="(max-width: 900px) 50vw, 30vw"
+            />
+          </div>
+          <div className="hero-photo hero-photo-bedroom">
+            <Image
+              src="/photos/bedroom.webp"
+              alt="Уютная спальня Country House с картиной и синим креслом"
+              fill
+              priority
+              sizes="(max-width: 900px) 50vw, 40vw"
+            />
+          </div>
+          <div className="hero-photo hero-photo-fireplace">
+            <Image
+              src="/photos/fireplace.webp"
+              alt="Камин в апартаментах Country House"
+              fill
+              priority
+              sizes="(max-width: 900px) 50vw, 30vw"
+            />
+          </div>
+          <div className="hero-overlay" />
+        </div>
         <div className="hero-content">
-          <p className="eyebrow">Апартаменты в Тольятти</p>
-          <h1>Country House</h1>
+          <p className="eyebrow">Джакузи · Камин · Домашний уют</p>
+          <h1>
+            Country House{" "}
+            <span className="hero-heading-detail">
+              Апартаменты посуточно в Тольятти
+            </span>
+          </h1>
           <p>
-            Особый сервис при домашнем уюте: три авторских апартамента в одной
-            из лучших локаций города.
+            Три авторских апартамента с джакузи, каминами и кухнями. Для отдыха
+            и командировок, с онлайн-бронированием и отчётными документами.
           </p>
           <div className="hero-actions">
             <a className="button button-primary" href="#apartments">
@@ -257,7 +293,7 @@ export default function Home() {
       <section className="section apartments-section" id="apartments">
         <div className="section-heading">
           <p className="eyebrow">Апартаменты</p>
-          <h2>Три интерьера с классическим характером</h2>
+          <h2>Апартаменты с джакузи и камином</h2>
           <p>
             Все апартаменты находятся по одному адресу, оснащены просторными
             ваннами на двоих с джакузи и каминами.
@@ -269,7 +305,7 @@ export default function Home() {
               <div className="apartment-image">
                 <Image
                   src={item.image}
-                  alt={item.title}
+                  alt={item.alt}
                   fill
                   sizes="(max-width: 900px) 100vw, 33vw"
                 />
@@ -293,12 +329,12 @@ export default function Home() {
           </div>
           <video
             aria-label="Видеообзор апартаментов Country House"
-            autoPlay
             controls
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
+            poster="/photos/bedroom.webp"
           >
             <source src="/media-apart-preview.mp4" type="video/mp4" />
           </video>
@@ -328,8 +364,8 @@ export default function Home() {
       <section className="about-band" id="about">
         <div className="about-image">
           <Image
-            src="/Ванная_08.jpg"
-            alt="Ванная комната с джакузи в Country House"
+            src="/photos/bedroom-evening.webp"
+            alt="Спальня Country House с мягким светом ламп и свечами"
             fill
             sizes="(max-width: 900px) 100vw, 46vw"
           />
@@ -363,10 +399,10 @@ export default function Home() {
       <section className="section location-section">
         <div className="section-heading">
           <p className="eyebrow">Расположение</p>
-          <h2>Все важное рядом</h2>
+          <h2>Приморский бульвар: всё важное рядом</h2>
           <p>
-            Апартаменты находятся в одной из лучших локаций города. В шаговой
-            доступности - продуктовые магазины, кафе и аптеки.
+            Наш адрес: {site.city}, {site.streetAddress}. В шаговой доступности —
+            продуктовые магазины, кафе и аптеки.
           </p>
         </div>
         <div className="location-list">
@@ -419,8 +455,20 @@ export default function Home() {
           <h2>Будем рады видеть вас в числе наших гостей</h2>
           <p>
             Country House - место, куда хочется возвращаться.
-            <span className="contact-phone">+7 927 611-65-60</span>
+            <a className="contact-phone" href={`tel:${site.telephone}`}>
+              {site.displayTelephone}
+            </a>
           </p>
+          <address className="contact-address">
+            {site.city}, {site.streetAddress}
+            <a
+              href={`https://yandex.ru/maps/?text=${encodeURIComponent(`${site.city}, ${site.streetAddress}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Открыть на карте
+            </a>
+          </address>
           <div className="contact-actions">
             {contactLinks.map((link, index) => (
               <a
