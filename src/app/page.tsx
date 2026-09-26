@@ -229,36 +229,15 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-collage">
-          <div className="hero-photo hero-photo-spa">
-            <Image
-              src="/photos/jacuzzi-foam.webp"
-              alt="Пена и лепестки роз в джакузи при свечах"
-              fill
-              priority
-              sizes="(max-width: 900px) 50vw, 30vw"
-            />
-          </div>
-          <div className="hero-photo hero-photo-bedroom">
-            <Image
-              src="/photos/bedroom.webp"
-              alt="Уютная спальня Country House с картиной и синим креслом"
-              fill
-              priority
-              sizes="(max-width: 900px) 50vw, 40vw"
-            />
-          </div>
-          <div className="hero-photo hero-photo-fireplace">
-            <Image
-              src="/photos/fireplace.webp"
-              alt="Камин в апартаментах Country House"
-              fill
-              priority
-              sizes="(max-width: 900px) 50vw, 30vw"
-            />
-          </div>
-          <div className="hero-overlay" />
-        </div>
+        <Image
+          className="hero-image"
+          src="/Спальня1_35.jpg"
+          alt="Спальня апартаментов Country House"
+          fill
+          priority
+          sizes="100vw"
+        />
+        <div className="hero-overlay" />
         <div className="hero-content">
           <p className="eyebrow">Джакузи · Камин · Домашний уют</p>
           <h1>

@@ -119,47 +119,9 @@ main {
   color: var(--ink-on-dark);
 }
 
-.hero-collage {
-  --hero-slant: clamp(32px, 6vw, 100px);
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: 3fr 4fr 3fr;
-  background: #251915;
-}
-
-.hero-photo {
-  position: relative;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.hero-photo-spa {
-  margin-right: calc(-1 * var(--hero-slant));
-  clip-path: polygon(0 0, calc(100% - 2px) 0, calc(100% - 2 * var(--hero-slant) - 2px) 100%, 0 100%);
-}
-
-.hero-photo-bedroom {
-  margin-inline: calc(-1 * var(--hero-slant));
-  clip-path: polygon(calc(2 * var(--hero-slant) + 2px) 0, calc(100% - 2px) 0, calc(100% - 2 * var(--hero-slant) - 2px) 100%, 2px 100%);
-}
-
-.hero-photo-fireplace {
-  margin-left: calc(-1 * var(--hero-slant));
-  clip-path: polygon(calc(2 * var(--hero-slant) + 2px) 0, 100% 0, 100% 100%, 2px 100%);
-}
-
-.hero-photo img {
+.hero-image {
   object-fit: cover;
   object-position: center;
-}
-
-.hero-photo-spa img {
-  object-position: 50% 70%;
-}
-
-.hero-photo-fireplace img {
-  object-position: 60% 55%;
 }
 
 .hero-overlay {
@@ -167,8 +129,8 @@ main {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(19, 11, 8, 0.4), rgba(19, 11, 8, 0.1) 70%),
-    linear-gradient(180deg, rgba(19, 11, 8, 0.16) 25%, rgba(19, 11, 8, 0.8));
+    linear-gradient(90deg, rgba(19, 11, 8, 0.78), rgba(19, 11, 8, 0.34) 48%, rgba(19, 11, 8, 0.2)),
+    linear-gradient(180deg, rgba(19, 11, 8, 0.18), rgba(19, 11, 8, 0.72));
 }
 
 .hero-content {
@@ -809,45 +771,8 @@ h2 {
   }
 
   .hero {
-    min-height: auto;
-    padding-top: 0;
-    background: #251915;
-  }
-
-  .hero-collage {
-    --hero-slant: clamp(20px, 6vw, 48px);
-    position: relative;
-    inset: auto;
-    height: clamp(380px, 65vw, 560px);
-    margin-inline: calc(-1 * clamp(18px, 5vw, 72px));
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    row-gap: 4px;
-  }
-
-  .hero-photo-spa {
-    grid-row: 1 / 3;
-  }
-
-  .hero-photo-bedroom {
-    margin-right: 0;
-    clip-path: polygon(calc(2 * var(--hero-slant) + 2px) 0, 100% 0, 100% 100%, calc(var(--hero-slant) + 2px) 100%);
-  }
-
-  .hero-photo-fireplace {
-    clip-path: polygon(calc(var(--hero-slant) + 2px) 0, 100% 0, 100% 100%, 2px 100%);
-  }
-
-  .hero-photo-bedroom img {
-    object-position: 50% 65%;
-  }
-
-  .hero-photo-fireplace img {
-    object-position: 60% 60%;
-  }
-
-  .hero-overlay {
-    background: linear-gradient(180deg, rgba(19, 11, 8, 0.2), transparent 35%);
+    min-height: 88svh;
+    padding-top: 110px;
   }
 
   .booking-strip {
@@ -856,7 +781,7 @@ h2 {
     right: auto;
     bottom: auto;
     grid-template-columns: repeat(2, 1fr);
-    margin-top: 0;
+    margin-top: -74px;
   }
 
   .booking-strip span:nth-child(2n) {
@@ -864,7 +789,7 @@ h2 {
   }
 
   .hero-content {
-    padding-block: 32px;
+    padding-bottom: 130px;
   }
 
   .section-heading,
@@ -895,7 +820,7 @@ h2 {
   }
 
   .hero-content {
-    padding-bottom: 28px;
+    padding-bottom: 120px;
   }
 
   .hero h1 {
@@ -908,7 +833,7 @@ h2 {
 
   .booking-strip {
     grid-template-columns: 1fr;
-    margin-top: 0;
+    margin-top: -86px;
   }
 
   .booking-strip span {
